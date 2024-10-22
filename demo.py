@@ -11,9 +11,9 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 MAPPING_EXAMPLE = {
-  '마포': './Minseok/res/reviews.json', 
-  '서대문': './Minseok/res/shillastay_Seodaemun.json',
-  '역삼': './Minseok/res/shillastay_Yeoksam.json',
+  '마포': './res/reviews.json', 
+  '서대문': './res/shillastay_Seodaemun.json',
+  '역삼': './res/shillastay_Yeoksam.json',
 }
 
 # Pickle file open example

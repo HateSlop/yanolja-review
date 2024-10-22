@@ -1,0 +1,5 @@
+# .env 파일 제외
+.env
+
+# myenv 폴더의 모든 파일 제외
+myenv/
