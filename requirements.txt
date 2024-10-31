@@ -1,7 +1,0 @@
-ipykernel==6.29.5
-python-dotenv==1.0.1
-beautifulsoup4==4.12.3
-selenium==4.21.0
-openai==1.30.5
-tqdm
-gradio==4.32.0
