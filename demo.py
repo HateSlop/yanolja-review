@@ -8,6 +8,14 @@ import gradio as gr
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
+from pydantic import BaseModel
+from starlette.requests import Request
+
+class MyRequestModel(BaseModel):
+    request: Request  # Request 객체를 포함하는 모델 예시
+
+    class Config:
+        arbitrary_types_allowed = True
 
 # OpenAI API 키 설정
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
@@ -51,19 +59,28 @@ def preprocess_reviews(path='./res/paju_mate.json'):
 
     return review_good_text, review_bad_text
 
-def summarize(reviews, prompt, temperature=0.0, model='gpt-3.5-turbo-0125'):
+import openai
+
+def summarize(reviews, prompt, temperature=0.0, model='gpt-3.5-turbo'):
     # 프롬프트와 리뷰 결합
     prompt_with_reviews = prompt + '\n\n' + reviews
 
     # OpenAI API 호출하여 요약 생성
-    completion = client.Completion.create(
+    completion = openai.ChatCompletion.create(
         model=model,
-        prompt=prompt_with_reviews,
+        messages=[
+            {"role": "system", "content": "Summarize the following reviews."},
+            {"role": "user", "content": prompt_with_reviews}
+        ],
         temperature=temperature,
         max_tokens=150
     )
 
-    return completion.choices[0].text.strip()
+    # response에서 생성된 요약 텍스트 추출
+    summary = completion.choices[0].message['content']
+    return summary
+
+
 
 def fn(accom_name):
     # 숙소 이름을 통해 파일 경로 받아오기
